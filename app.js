@@ -1,5 +1,5 @@
 const HOME_PRICE = 3.05;
-let editIndex = 1;
+let editIndex = -1;
 
 document.addEventListener("DOMContentLoaded", init);
 
