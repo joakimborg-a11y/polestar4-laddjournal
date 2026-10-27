@@ -1,0 +1,33 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0b1220;
+    color: white;
+    margin: 0;
+    padding: 15px;
+}
+
+.card {
+    background: #111827;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+input,
+select,
+button {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    border: none;
+}
+
+button {
+    background: #2563eb;
+    color: white;
+    font-weight: bold;
+}
+

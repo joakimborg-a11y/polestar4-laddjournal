@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Polestar 4 Laddjournal</title>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+
+    <meta name="theme-color" content="#2563eb">
+</head>
+
+<body>
+
+<h1>🚗 Polestar 4 Laddjournal</h1>
+
+<div class="card">
+
+    <h2>Ny laddning</h2>
+
+    <input type="date" id="datum">
+
+    <select id="plats">
+        <option>Hemma</option>
+        <option>Circle K</option>
+        <option>ChargeNode</option>
+        <option>Tesla</option>
+        <option>Ionity</option>
+        <option>Annan</option>
+    </select>
+
+    <input
+        type="number"
+        id="kwh"
+        step="0.1"
+        placeholder="kWh">
+
+    <input
+        type="number"
+        id="kostnad"
+        step="0.01"
+        placeholder="Kostnad">
+
+    <input
+        type="number"
+        id="km"
+        placeholder="Mätarställning">
+
+    <button id="saveBtn">
+        Spara laddning
+    </button>
+
+</div>
+
+<div class="card">
+
+    <h2>Dashboard</h2>
+
+    <div id="dashboard">
+        Inga laddningar registrerade ännu.
+    </div>
+
+</div>
+
+<script src="db.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
