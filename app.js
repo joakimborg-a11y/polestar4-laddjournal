@@ -143,7 +143,6 @@ if (data.length >= 2) {
     ${costPerMil.toFixed(2)}
     kr/mil
 `;
-    `;
 }
 
 function registerServiceWorker() {
