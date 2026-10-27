@@ -12,7 +12,27 @@ body {
     border-radius: 12px;
     margin-bottom: 15px;
 }
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:12px;
+}
 
+.stat-card{
+    background:#1f2937;
+    padding:15px;
+    border-radius:12px;
+    text-align:center;
+}
+
+.stat-value{
+    font-size:1.8rem;
+    font-weight:bold;
+}
+
+.stat-label{
+    color:#9ca3af;
+}
 input,
 select,
 button {
