@@ -102,9 +102,15 @@ function updateDashboard() {
         JSON.parse(localStorage.getItem("charges"))
         || [];
 
-    let totalCost = 0;
+   
+}
+    data.forEach(item => {
+        totalCost += item.cost;
+        totalKwh += item.kwh;
+    });
+ let totalCost = 0;
     let totalKwh = 0;
-let costPerMil = 0;
+    let costPerMil = 0;
 
 if (data.length >= 2) {
 
@@ -119,12 +125,6 @@ if (data.length >= 2) {
         costPerMil =
             totalCost / distanceMil;
     }
-}
-    data.forEach(item => {
-        totalCost += item.cost;
-        totalKwh += item.kwh;
-    });
-
     dashboard.innerHTML = `
     <strong>Total kostnad:</strong>
     ${totalCost.toFixed(0)} kr<br>
