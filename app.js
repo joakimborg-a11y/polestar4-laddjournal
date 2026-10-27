@@ -124,4 +124,72 @@ function registerServiceWorker() {
             .catch(console.error);
     }
 }
+function clearForm() {
 
+    document.getElementById("kwh").value = "";
+    document.getElementById("kostnad").value = "";
+    document.getElementById("km").value = "";
+}
+
+function renderHistory() {
+
+    const container =
+        document.getElementById(
+            "historyContainer"
+        );
+
+    const data =
+        JSON.parse(
+            localStorage.getItem("charges")
+        ) || [];
+
+    if (data.length === 0) {
+
+        container.innerHTML =
+            "Inga laddningar registrerade.";
+
+        return;
+    }
+
+    let html = `
+    <table style="width:100%">
+    <tr>
+        <th>Datum</th>
+        <th>Plats</th>
+        <th>kWh</th>
+        <th>Kr</th>
+        <th></th>
+    </tr>
+    `;
+
+    data.forEach((item,index) => {
+
+        html += `
+        <tr>
+
+        <td>${item.date}</td>
+
+        <td>${item.place}</td>
+
+        <td>${item.kwh}</td>
+
+        <td>${item.cost.toFixed(0)}</td>
+
+        <td>
+        <button onclick="editCharge(${index})">
+        ✏️
+        </button>
+
+        <button onclick="deleteCharge(${index})">
+        🗑️
+        </button>
+        </td>
+
+        </tr>
+        `;
+    });
+
+    html += "</table>";
+
+    container.innerHTML = html;
+}
