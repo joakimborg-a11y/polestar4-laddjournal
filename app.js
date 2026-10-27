@@ -1,5 +1,6 @@
 const HOME_PRICE = 3.05;
 let editIndex = -1;
+let monthlyChart = null;
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -25,6 +26,7 @@ function init() {
 
     updateDashboard();
     renderHistory();
+    renderMonthlyChart();
 }
 
 function saveCharge() {
@@ -92,6 +94,7 @@ function saveCharge() {
     clearForm();
     updateDashboard();
     renderHistory();
+    renderMonthlyChart();
 }
 function updateDashboard() {
 
@@ -283,6 +286,7 @@ function deleteCharge(index) {
 
     updateDashboard();
     renderHistory();
+    renderMonthlyChart();
 }
 function exportCsv() {
 
@@ -319,4 +323,82 @@ function exportCsv() {
         "Polestar4_Laddningar.csv";
 
     link.click();
+}
+function renderMonthlyChart() {
+
+    const data =
+        JSON.parse(
+            localStorage.getItem("charges")
+        ) || [];
+
+    const monthlyData = {};
+
+    data.forEach(item => {
+
+        const month =
+            item.date.substring(0, 7);
+
+        monthlyData[month] =
+            (monthlyData[month] || 0)
+            + Number(item.cost);
+
+    });
+
+    const labels =
+        Object.keys(monthlyData);
+
+    const values =
+        Object.values(monthlyData);
+
+    const canvas =
+        document.getElementById(
+            "monthlyChart"
+        );
+
+    if (!canvas) {
+        return;
+    }
+
+    const ctx =
+        canvas.getContext("2d");
+
+    if (monthlyChart) {
+
+        monthlyChart.destroy();
+
+    }
+
+    monthlyChart =
+        new Chart(ctx, {
+
+            type: "bar",
+
+            data: {
+
+                labels: labels,
+
+                datasets: [{
+
+                    label: "Kostnad per månad (kr)",
+
+                    data: values,
+
+                    backgroundColor:
+                        "#2563eb"
+
+                }]
+            },
+
+            options: {
+
+                responsive: true,
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
 }
