@@ -21,7 +21,6 @@ function init() {
 }
 
 function saveCharge() {
-    alert("saveCharge körs");
 
     const place =
         document.getElementById("plats").value;
@@ -40,31 +39,53 @@ function saveCharge() {
         cost = kwh * HOME_PRICE;
     }
 
-    let list =
-        JSON.parse(localStorage.getItem("charges"))
-        || [];
+    const charge = {
 
-    list.push({
         date:
             document.getElementById("datum").value,
+
         place,
+
         kwh,
+
         cost,
+
         km:
-            document.getElementById("km").value
-    });
-console. log(list);
-alert (JSON.stringify(list));
+            parseInt(
+                document.getElementById("km").value
+            ) || 0
+    };
+
+    let list =
+        JSON.parse(
+            localStorage.getItem("charges")
+        ) || [];
+
+    if (editIndex >= 0) {
+
+        list[editIndex] = charge;
+
+        editIndex = -1;
+
+        document.getElementById(
+            "saveBtn"
+        ).textContent = "Spara laddning";
+
+    } else {
+
+        list.push(charge);
+
+    }
+
     localStorage.setItem(
         "charges",
         JSON.stringify(list)
     );
 
+    clearForm();
     updateDashboard();
-
-    alert("Laddning sparad");
+    renderHistory();
 }
-
 function updateDashboard() {
 
     const dashboard =
