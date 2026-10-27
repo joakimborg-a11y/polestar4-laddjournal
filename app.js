@@ -5,6 +5,12 @@ document.addEventListener("DOMContentLoaded", init);
 
 function init() {
 
+    document
+    .getElementById("exportCsvBtn")
+    .addEventListener(
+        "click",
+        exportCsv
+    );
     const dateField =
         document.getElementById("datum");
 
@@ -18,6 +24,7 @@ function init() {
     registerServiceWorker();
 
     updateDashboard();
+    renderHistory();
 }
 
 function saveCharge() {
@@ -192,4 +199,101 @@ function renderHistory() {
     html += "</table>";
 
     container.innerHTML = html;
+}
+function editCharge(index) {
+
+    const data =
+        JSON.parse(
+            localStorage.getItem("charges")
+        ) || [];
+
+    const item = data[index];
+
+    if (!item) {
+        return;
+    }
+
+    document.getElementById("datum").value =
+        item.date;
+
+    document.getElementById("plats").value =
+        item.place;
+
+    document.getElementById("kwh").value =
+        item.kwh;
+
+    document.getElementById("kostnad").value =
+        item.cost;
+
+    document.getElementById("km").value =
+        item.km;
+
+    editIndex = index;
+
+    document.getElementById("saveBtn")
+        .textContent = "Spara ändringar";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+function deleteCharge(index) {
+
+    if (!confirm(
+        "Vill du verkligen radera denna laddning?"
+    )) {
+        return;
+    }
+
+    let data =
+        JSON.parse(
+            localStorage.getItem("charges")
+        ) || [];
+
+    data.splice(index, 1);
+
+    localStorage.setItem(
+        "charges",
+        JSON.stringify(data)
+    );
+
+    updateDashboard();
+    renderHistory();
+}
+function exportCsv() {
+
+    const data =
+        JSON.parse(
+            localStorage.getItem("charges")
+        ) || [];
+
+    let csv =
+        "Datum,Plats,kWh,Kostnad,KM\n";
+
+    data.forEach(item => {
+
+        csv +=
+            `${item.date},${item.place},${item.kwh},${item.cost},${item.km}\n`;
+
+    });
+
+    const blob =
+        new Blob(
+            [csv],
+            {
+                type: "text/csv;charset=utf-8;"
+            }
+        );
+
+    const link =
+        document.createElement("a");
+
+    link.href =
+        URL.createObjectURL(blob);
+
+    link.download =
+        "Polestar4_Laddningar.csv";
+
+    link.click();
 }
