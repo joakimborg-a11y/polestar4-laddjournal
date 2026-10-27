@@ -104,21 +104,46 @@ function updateDashboard() {
 
     let totalCost = 0;
     let totalKwh = 0;
+let costPerMil = 0;
 
+if (data.length >= 2) {
+
+    const firstKm = data[0].km;
+    const lastKm = data[data.length - 1].km;
+
+    const distanceMil =
+        (lastKm - firstKm) / 10;
+
+    if (distanceMil > 0) {
+
+        costPerMil =
+            totalCost / distanceMil;
+    }
+}
     data.forEach(item => {
         totalCost += item.cost;
         totalKwh += item.kwh;
     });
 
     dashboard.innerHTML = `
-        <strong>Total kostnad:</strong>
-        ${totalCost.toFixed(0)} kr<br>
+        dashboard.innerHTML = `
+    <strong>Total kostnad:</strong>
+    ${totalCost.toFixed(0)} kr<br>
 
-        <strong>Total energi:</strong>
-        ${totalKwh.toFixed(1)} kWh<br>
+    <strong>Total energi:</strong>
+    ${totalKwh.toFixed(1)} kWh<br>
 
-        <strong>Antal laddningar:</strong>
-        ${data.length}
+    <strong>Antal laddningar:</strong>
+    ${data.length}<br>
+
+    <strong>Snittpris:</strong>
+    ${(totalCost / Math.max(totalKwh,1)).toFixed(2)}
+    kr/kWh<br>
+
+    <strong>Kostnad per mil:</strong>
+    ${costPerMil.toFixed(2)}
+    kr/mil
+`;
     `;
 }
 
