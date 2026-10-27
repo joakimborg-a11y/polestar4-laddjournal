@@ -126,7 +126,6 @@ if (data.length >= 2) {
     });
 
     dashboard.innerHTML = `
-        dashboard.innerHTML = `
     <strong>Total kostnad:</strong>
     ${totalCost.toFixed(0)} kr<br>
 
