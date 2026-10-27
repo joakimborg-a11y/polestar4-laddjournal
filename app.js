@@ -102,50 +102,91 @@ function updateDashboard() {
         document.getElementById("dashboard");
 
     const data =
-        JSON.parse(localStorage.getItem("charges"))
-        || [];
+        JSON.parse(
+            localStorage.getItem("charges")
+        ) || [];
 
-   
-}
+    let totalCost = 0;
+    let totalKwh = 0;
+
     data.forEach(item => {
+
         totalCost += item.cost;
         totalKwh += item.kwh;
+
     });
- let totalCost = 0;
-    let totalKwh = 0;
+
     let costPerMil = 0;
 
-if (data.length >= 2) {
+    if (data.length >= 2) {
 
-    const firstKm = data[0].km;
-    const lastKm = data[data.length - 1].km;
+        const firstKm =
+            Number(data[0].km);
 
-    const distanceMil =
-        (lastKm - firstKm) / 10;
+        const lastKm =
+            Number(data[data.length - 1].km);
 
-    if (distanceMil > 0) {
+        const distanceMil =
+            (lastKm - firstKm) / 10;
 
-        costPerMil =
-            totalCost / distanceMil;
+        if (distanceMil > 0) {
+
+            costPerMil =
+                totalCost / distanceMil;
+        }
     }
+
     dashboard.innerHTML = `
-    <strong>Total kostnad:</strong>
-    ${totalCost.toFixed(0)} kr<br>
 
-    <strong>Total energi:</strong>
-    ${totalKwh.toFixed(1)} kWh<br>
+        <div class="stat-card">
 
-    <strong>Antal laddningar:</strong>
-    ${data.length}<br>
+            <div class="stat-value">
+                ${totalCost.toFixed(0)} kr
+            </div>
 
-    <strong>Snittpris:</strong>
-    ${(totalCost / Math.max(totalKwh,1)).toFixed(2)}
-    kr/kWh<br>
+            <div class="stat-label">
+                Total kostnad
+            </div>
 
-    <strong>Kostnad per mil:</strong>
-    ${costPerMil.toFixed(2)}
-    kr/mil
-`;
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-value">
+                ${totalKwh.toFixed(1)}
+            </div>
+
+            <div class="stat-label">
+                kWh
+            </div>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-value">
+                ${data.length}
+            </div>
+
+            <div class="stat-label">
+                Laddningar
+            </div>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-value">
+                ${costPerMil.toFixed(2)}
+            </div>
+
+            <div class="stat-label">
+                kr/mil
+            </div>
+
+        </div>
+
+    `;
 }
 
 function registerServiceWorker() {
